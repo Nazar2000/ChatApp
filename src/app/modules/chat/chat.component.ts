@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-folder',
-  templateUrl: './folder.page.html',
-  styleUrls: ['./folder.page.scss'],
+  selector: 'app-chat',
+  templateUrl: './chat.component.html',
+  styleUrls: ['./chat.component.scss'],
 })
-export class FolderPage implements OnInit {
+export class ChatComponent implements OnInit {
   public folder: string;
 
   constructor(private activatedRoute: ActivatedRoute) { }
@@ -14,5 +14,4 @@ export class FolderPage implements OnInit {
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id');
   }
-
 }

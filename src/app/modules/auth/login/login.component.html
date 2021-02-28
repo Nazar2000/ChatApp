@@ -1,0 +1,48 @@
+<ion-content [fullscreen]="true">
+  <form [formGroup]="loginForm">
+    <div class="login-dialog__form--item">
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input matInput formControlName="login" required>
+      </mat-form-field>
+    </div>
+
+    <div class="login-dialog__form--item">
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input [type]="isPassHide ? 'password' : 'text'" matInput formControlName="password" required>
+        <button class="hide-pass"
+                *ngIf="loginForm.controls.password.value"
+                (click)="isPassHide = !isPassHide">
+          <mat-icon svgIcon="gfg-material-hover-icon"
+                    [ngClass]="{'orange-icon': !isPassHide, 'grey-icon': isPassHide}">
+          </mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </form>
+  <ion-list>
+    <div class="ion-text-start">
+      <ion-button (click)="getContacts()">
+        Fetch Contacts
+      </ion-button>
+    </div>
+    <ion-item *ngFor="let contact of contacts | async">
+      <ion-icon color="primary" slot="start" name="beer"></ion-icon>
+      <ion-avatar slot="start">
+        <ion-img [src]="contact.photoThumbnail"></ion-img>
+      </ion-avatar>
+      <ion-label class="ion-text-wrap">
+        <ion-text color="dark">
+          <h3>{{contact.displayName}}</h3>
+        </ion-text>
+        <ion-text color="medium" *ngFor="let number of contact.phoneNumbers">
+          <p>{{number.label}}:{{number.number}}</p>
+        </ion-text>
+        <ion-text color="medium" *ngFor="let mails of contact.emails">
+          <p>{{mails.label}}: {{mails.address}}</p>
+        </ion-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
