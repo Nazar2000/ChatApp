@@ -1,48 +1,48 @@
 <ion-content [fullscreen]="true">
-  <form [formGroup]="loginForm">
-    <div class="login-dialog__form--item">
-      <mat-form-field appearance="outline">
-        <mat-label>E-mail</mat-label>
-        <input matInput formControlName="login" required>
-      </mat-form-field>
-    </div>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="ion-justify-content-center ion-align-self-end ion-text-center">
+      <h1>{{loginPage ? 'Login' : 'Sign Up'}}</h1>
+      <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+        <div *ngIf="!loginPage" class="phone-number">
+          <mat-form-field appearance="outline">
+            <mat-label>User name</mat-label>
+            <input matInput formControlName="username" type="text" required>
+          </mat-form-field>
+        </div>
+        <div class="phone-number">
+          <mat-form-field appearance="outline">
+            <mat-label>Phone number</mat-label>
+            <input matInput formControlName="telNumber" type="tel" required>
+          </mat-form-field>
+        </div>
+        <div class="phone-number">
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" required>
+          </mat-form-field>
+        </div>
 
-    <div class="login-dialog__form--item">
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input [type]="isPassHide ? 'password' : 'text'" matInput formControlName="password" required>
-        <button class="hide-pass"
-                *ngIf="loginForm.controls.password.value"
-                (click)="isPassHide = !isPassHide">
-          <mat-icon svgIcon="gfg-material-hover-icon"
-                    [ngClass]="{'orange-icon': !isPassHide, 'grey-icon': isPassHide}">
-          </mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
-  </form>
-  <ion-list>
-    <div class="ion-text-start">
-      <ion-button (click)="getContacts()">
-        Fetch Contacts
-      </ion-button>
-    </div>
-    <ion-item *ngFor="let contact of contacts | async">
-      <ion-icon color="primary" slot="start" name="beer"></ion-icon>
-      <ion-avatar slot="start">
-        <ion-img [src]="contact.photoThumbnail"></ion-img>
-      </ion-avatar>
-      <ion-label class="ion-text-wrap">
-        <ion-text color="dark">
-          <h3>{{contact.displayName}}</h3>
-        </ion-text>
-        <ion-text color="medium" *ngFor="let number of contact.phoneNumbers">
-          <p>{{number.label}}:{{number.number}}</p>
-        </ion-text>
-        <ion-text color="medium" *ngFor="let mails of contact.emails">
-          <p>{{mails.label}}: {{mails.address}}</p>
-        </ion-text>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+        <!--    <div class="login-dialog__form&#45;&#45;item">-->
+        <!--      <mat-form-field appearance="outline">-->
+        <!--        <mat-label>Password</mat-label>-->
+        <!--        <input [type]="isPassHide ? 'password' : 'text'" matInput formControlName="password" required>-->
+        <!--        <button class="hide-pass"-->
+        <!--                *ngIf="loginForm.controls.password.value"-->
+        <!--                (click)="isPassHide = !isPassHide">-->
+        <!--          <mat-icon svgIcon="gfg-material-hover-icon"-->
+        <!--                    [ngClass]="{'orange-icon': !isPassHide, 'grey-icon': isPassHide}">-->
+        <!--          </mat-icon>-->
+        <!--        </button>-->
+        <!--      </mat-form-field>-->
+        <!--    </div>-->
+        <ion-button expand="block" type="submit">Submit</ion-button>
+      </form>
+    </ion-col>
+    <ion-button class="ion-align-self-end"
+                fill="clear"
+                routerLink="/{{loginPage ? 'auth/sign-up' : 'auth/login'}}"
+                type="button">
+      {{loginPage ? 'Sign Up' : 'Login'}}
+    </ion-button>
+  </ion-row>
 </ion-content>

@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable, of} from 'rxjs';
 import {Contact} from '../../../phone-contact';
 import {Plugins} from '@capacitor/core';
+import {AuthService} from '../../../core/services/auth/auth.service';
+import {NavigationEnd, Router} from '@angular/router';
 
 const {Contacts} = Plugins;
 
@@ -15,17 +17,42 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isPassHide = false;
   contacts: Observable<Contact[]>;
+  loginPage = true;
 
-  constructor() {
+  constructor(public authService: AuthService, private router: Router) {
     this.loginForm = new FormGroup({
-      login: new FormControl('', [Validators.minLength(3),
-        Validators.maxLength(30), Validators.email]),
-      password: new FormControl('', [Validators.minLength(3)])
+      telNumber: new FormControl('', [Validators.minLength(10), Validators.maxLength(10)]),
+      password: new FormControl('', [Validators.minLength(3)]),
+      username: new FormControl('', [Validators.minLength(2), Validators.maxLength(10)])
     });
   }
 
   ngOnInit() {
-    this.getPermissions();
+    this.router.events.subscribe(params => {
+      if (params instanceof NavigationEnd) {
+        this.loginPage = params.url === '/auth/login';
+        console.log(this.loginPage);
+      }
+    });
+    // this.getPermissions();
+  }
+
+  submitForm() {
+    const data: any = {
+      telNumber: this.loginForm.controls.telNumber.value,
+      password: this.loginForm.controls.password.value
+    };
+    if (this.loginPage) {
+      this.authService.logIn(data).subscribe((resp: any) => {
+        localStorage.setItem('token', resp.token);
+        this.router.navigate(['/chats/']);
+      });
+    } else {
+      data.username = this.loginForm.controls.username.value;
+      this.authService.signUp(data).subscribe(resp => {
+        this.router.navigate(['/auth/login']);
+      });
+    }
   }
 
   getPermissions() {

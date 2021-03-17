@@ -15,10 +15,11 @@ export class AuthService {
   ) {
   }
 
-  logIn() {
-    const payload = new HttpParams()
-      .set('username', 'web@gmail.com')
-      .set('password', 'admin');
-    return this.http.post(`${this.url}/app/login/`, payload);
+  logIn(data?) {
+    return this.http.post(`${this.url}user/login/`, data);
+  }
+
+  signUp(data?) {
+    return this.http.post(`${this.url}user/register/`, data);
   }
 }
