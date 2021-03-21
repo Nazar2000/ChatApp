@@ -11,8 +11,9 @@ import {RefreshTokenInterceptor} from './core/interceptor/refresh.token.intercep
 import {TokenInterceptor} from './core/interceptor/token.interceptor';
 
 import {AuthModule} from './modules/auth/auth.module';
-import {ChatModule} from './modules/chat/chat.module';
+import {ChatsModule} from './modules/chats/chats.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,10 +22,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     HttpClientModule,
     AuthModule,
-    ChatModule,
+    ChatsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    SharedModule
   ],
   providers: [
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},

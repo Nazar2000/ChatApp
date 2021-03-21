@@ -11,9 +11,15 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule),
-  }, {
+  },
+  {
     path: 'chats',
-    loadChildren: () => import('./modules/chat/chat.module').then(m => m.ChatModule),
+    loadChildren: () => import('./modules/chats/chats.module').then(m => m.ChatsModule),
+    canActivate: [AuthGuard]
+  } ,
+  {
+    path: 'contacts',
+    loadChildren: () => import('./modules/contacts/contacts.module').then(m => m.ContactsModule),
     canActivate: [AuthGuard]
   }
 ];
