@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { FolderPage } from './folder.page';
+import {ChatsComponent} from './chats.component';
+import {ChatComponent} from './components/chat/chat.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: FolderPage
+    component: ChatsComponent
+  },
+  {
+    path: 'chat',
+    component: ChatComponent
   }
 ];
 
@@ -14,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class FolderPageRoutingModule {}
+export class ChatsRoutingModule {}
