@@ -6,6 +6,7 @@ import {GeneralService} from '../../core/services/generel/general.service';
 import {ContactsCheckComponent} from '../chats/modals/contacts-check/contacts-check.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ContactsService} from '../../core/services/contacts/contacts.service';
+import {Router} from '@angular/router';
 
 const {Contacts} = Plugins;
 
@@ -20,19 +21,23 @@ export class ContactsComponent implements OnInit {
   constructor(
     public generalService: GeneralService,
     private contactService: ContactsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public router: Router,
   ) {
   }
 
   ngOnInit() {
-    if (!this.generalService.isWeb) {
-      this.getPermissions();
-    }
+    this.getPermissions();
     this.getContactsArray();
   }
 
   getPermissions() {
     Contacts.getPermissions();
+  }
+
+  contactChat(contact) {
+    const id = contact.telNumber;
+    this.router.navigate([`/chats/chat/${id}`]);
   }
 
   checkContacts() {
@@ -56,13 +61,9 @@ export class ContactsComponent implements OnInit {
   }
 
   getContacts() {
-    if (!this.generalService.isWeb) {
-      Contacts.getContacts().then(result => {
-        const phoneContacts = result.contacts;
-        this.contacts = of(phoneContacts);
-      });
-    } else {
-      this.contacts = of(this.contactService.contactsArray);
-    }
+    Contacts.getContacts().then(result => {
+      const phoneContacts = result.contacts;
+      this.contacts = of(phoneContacts);
+    });
   }
 }

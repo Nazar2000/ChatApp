@@ -15,10 +15,10 @@ export class AuthService {
   }
 
   logIn(data?) {
-    return this.http.post(`${this.url}user/login/`, data);
+    return this.http.post(`${this.url}login/`, data);
   }
 
   signUp(data) {
-    return this.http.post(`${this.url}user/register/`, data);
+    return this.http.post(`${this.url}register/`, data);
   }
 }

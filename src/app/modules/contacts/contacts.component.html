@@ -2,14 +2,14 @@
 <ion-content>
   <ion-list>
     <div class="ion-text-center">
-      <ion-button (click)="getContacts()" *ngIf="!generalService.isWeb">
+      <ion-button (click)="getContacts()">
         Fetch Contacts
       </ion-button>
-      <ion-button (click)="checkContacts()" *ngIf="generalService.isWeb">
+      <ion-button (click)="checkContacts()">
         Check Contact
       </ion-button>
     </div>
-    <ion-item *ngFor="let contact of contacts | async">
+    <ion-item *ngFor="let contact of contacts | async" (click)="contactChat(contact)">
       <ion-icon color="primary" slot="start" name="people"></ion-icon>
 <!--      <ion-avatar slot="start">-->
 <!--        <ion-img [src]="contact.photoThumbnail"></ion-img>-->

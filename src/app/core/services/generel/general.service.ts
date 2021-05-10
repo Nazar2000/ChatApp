@@ -5,8 +5,8 @@ import jwt_decode from 'jwt-decode';
   providedIn: 'root'
 })
 export class GeneralService {
-  public isWeb;
   public userId;
+  public userName;
 
   constructor() {
     this.getUserId();
@@ -17,6 +17,7 @@ export class GeneralService {
     if (token){
       const decoded: any = jwt_decode(token);
       this.userId = decoded.data.id;
+      this.userName = decoded.data.username;
     }
   }
 }

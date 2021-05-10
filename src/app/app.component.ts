@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-import {Platform} from '@ionic/angular';
 import {GeneralService} from './core/services/generel/general.service';
 
 @Component({
@@ -17,8 +16,7 @@ export class AppComponent {
   ];
   public navigationShow = false;
 
-  constructor(private router: Router, private platform: Platform, public generalService: GeneralService) {
-    this.generalService.isWeb = this.platform.is('mobileweb');
+  constructor(private router: Router, public generalService: GeneralService) {
     router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         this.navigationShow = !(this.router.url === '/login' || this.router.url === '/sign-up');
