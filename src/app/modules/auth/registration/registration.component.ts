@@ -5,12 +5,12 @@ import {Router} from '@angular/router';
 import {GeneralService} from '../../../core/services/generel/general.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'app-registration',
+  templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.scss'],
 })
-export class LoginComponent {
-  loginForm: FormGroup;
+export class RegistrationComponent {
+  registerForm: FormGroup;
   isPassHide = false;
 
   constructor(
@@ -18,21 +18,22 @@ export class LoginComponent {
     public generalService: GeneralService,
     private router: Router) {
     this.generalService.authorised = false;
-    this.loginForm = new FormGroup({
+    this.registerForm = new FormGroup({
       telNumber: new FormControl('', [Validators.minLength(10), Validators.maxLength(10)]),
       password: new FormControl('', [Validators.minLength(3)]),
+      username: new FormControl('', [Validators.minLength(2), Validators.maxLength(10)])
     });
   }
 
   submitForm() {
     const data: any = {
-      telNumber: this.loginForm.controls.telNumber.value,
-      password: this.loginForm.controls.password.value,
+      telNumber: this.registerForm.controls.telNumber.value,
+      password: this.registerForm.controls.password.value,
+      username: this.registerForm.controls.username.value
     };
-    this.authService.logIn(data).subscribe((resp: any) => {
-      localStorage.setItem('token', resp.token);
-      this.generalService.authorised = true;
-      this.router.navigate(['/chats/']);
+    data.username = this.registerForm.controls.username.value;
+    this.authService.signUp(data).subscribe(() => {
+      this.router.navigate(['/auth/login']);
     });
   }
 }

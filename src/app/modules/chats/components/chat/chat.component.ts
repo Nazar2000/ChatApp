@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {io} from 'socket.io-client';
 import {environment} from '../../../../../environments/environment';
 import {GeneralService} from '../../../../core/services/generel/general.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -12,49 +13,56 @@ export class ChatComponent implements OnInit {
   socket;
   message: string;
   data = '';
+  recipientNumber;
 
-  constructor(public generalService: GeneralService,) {
+  constructor(public generalService: GeneralService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.recipientNumber = this.route.snapshot.paramMap.get('id');
     this.setupSocketConnection();
   }
 
   setupSocketConnection() {
+    const endElementOfView = document.getElementById('end');
     this.socket = io(environment.SOCKET_ENDPOINT);
-    this.socket.on('updateChat', (username, data: string) => {
+    this.socket.on('updateChat', (userId, data: any) => {
       if (data) {
         const element = document.createElement('li');
-        element.innerHTML = data;
+        element.innerHTML = data.id ? data.message : data;
+        element.style.padding = '8px';
+        element.style.margin = '8px';
+        element.style.borderRadius = '8px';
         element.style.background = 'white';
-        element.style.padding = '15px 30px';
-        element.style.margin = '10px';
-        if (username === this.generalService.userName){
-          element.style.textAlign = 'right';
+        element.style.height = 'max-content';
+        element.style.width = 'max-content';
+        element.style.maxWidth = '90%';
+        if (+userId === +this.generalService.userId) {
+          element.style.alignSelf = 'flex-end';
         }
         document.getElementById('message-list').appendChild(element);
+        setTimeout(() => endElementOfView.scrollIntoView(), 0);
       }
     });
 
     this.socket.on('connect', () => {
-      this.socket.emit('adduser', this.generalService.userName);
+      this.socket.emit('adduser', {
+        id: this.generalService.userId,
+        recipientNumber: this.recipientNumber,
+        username: this.generalService.userName
+      });
     });
-
-    // this.socket.on('updateRooms', (rooms, currentRoom) => {
-    //   // document.getElementById('#rooms').empty();
-    //   rooms.forEach((key, value) => {
-    //     if (value == currentRoom) {
-    //       document.getElementById('rooms').append('<div>' + value + '</div>');
-    //     } else {
-    //       // $('#rooms').append('<div><a href="#" onclick="switchRoom(\'' + value + '\')">' + value + '</a></div>');
-    //     }
-    //   });
-    // });
-
   }
 
   SendMessage(data) {
-    this.socket.emit('sendChat', data);
+    const dataChat = {
+      id: this.generalService.userId,
+      recipientNumber: this.recipientNumber,
+      message: data,
+      timestamp: Date.now()
+    };
+    this.socket.emit('sendChat', dataChat);
     this.message = '';
   }
 }

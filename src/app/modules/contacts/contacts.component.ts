@@ -51,10 +51,7 @@ export class ContactsComponent implements OnInit {
   }
 
   getContactsArray() {
-    const data = {
-      id: this.generalService.userId
-    };
-    this.contactService.getContacts(data).subscribe((resp: any) => {
+    this.contactService.getContacts(this.generalService.userId).subscribe((resp: any) => {
       this.contactService.contactsArray = resp.data.contacts;
       this.contacts = of(this.contactService.contactsArray);
     });

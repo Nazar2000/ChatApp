@@ -24,6 +24,6 @@ export class ContactsService {
   }
 
   getContacts(id) {
-    return this.http.get(`${this.url}contacts/contacts-list/`, id);
+    return this.http.get(`${this.url}contacts/contacts-list/${id}`);
   }
 }
