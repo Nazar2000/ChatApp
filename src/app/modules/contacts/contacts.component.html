@@ -3,7 +3,7 @@
   <ion-list>
     <div class="ion-text-center">
       <ion-button (click)="getContacts()">
-        Fetch Contacts
+        Fetch Contacts Book
       </ion-button>
       <ion-button (click)="checkContacts()">
         Check Contact
@@ -11,9 +11,6 @@
     </div>
     <ion-item *ngFor="let contact of contacts | async" (click)="contactChat(contact)">
       <ion-icon color="primary" slot="start" name="people"></ion-icon>
-<!--      <ion-avatar slot="start">-->
-<!--        <ion-img [src]="contact.photoThumbnail"></ion-img>-->
-<!--      </ion-avatar>-->
       <ion-label class="ion-text-wrap">
         <ion-text color="dark">
           <h3>{{contact.displayName}}</h3>

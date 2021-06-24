@@ -3,6 +3,7 @@ import {io} from 'socket.io-client';
 import {environment} from '../../../../../environments/environment';
 import {GeneralService} from '../../../../core/services/generel/general.service';
 import {ActivatedRoute} from '@angular/router';
+import {ToastsService} from "../../../../core/services/toasts/toasts.service";
 
 @Component({
   selector: 'app-chat',
@@ -16,12 +17,15 @@ export class ChatComponent implements OnInit {
   recipientNumber;
 
   constructor(public generalService: GeneralService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public toastsService: ToastsService,
+  ) {
   }
 
   ngOnInit() {
     this.recipientNumber = this.route.snapshot.paramMap.get('id');
     this.setupSocketConnection();
+    this.toastsService.showToast('Дякую, за увагу!!!', 'success');
   }
 
   setupSocketConnection() {
@@ -45,7 +49,9 @@ export class ChatComponent implements OnInit {
         setTimeout(() => endElementOfView.scrollIntoView(), 0);
       }
     });
-
+    this.socket.on('userName', (data) => {
+      this.generalService.recipientName = data;
+    });
     this.socket.on('connect', () => {
       this.socket.emit('adduser', {
         id: this.generalService.userId,

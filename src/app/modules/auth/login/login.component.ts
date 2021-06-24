@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../../core/services/auth/auth.service';
 import {Router} from '@angular/router';
 import {GeneralService} from '../../../core/services/generel/general.service';
+import {ToastsService} from '../../../core/services/toasts/toasts.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent {
 
   constructor(
     public authService: AuthService,
+    public toastsService: ToastsService,
     public generalService: GeneralService,
     private router: Router) {
     this.generalService.authorised = false;
@@ -27,12 +29,22 @@ export class LoginComponent {
   submitForm() {
     const data: any = {
       telNumber: this.loginForm.controls.telNumber.value,
-      password: this.loginForm.controls.password.value,
+      // password: this.loginForm.controls.password.value,
+        password: 'qwerty123',
     };
+    // const data: any = {
+    //   telNumber: '0967559525',
+    //   password: 'qwerty123',
+    // };
     this.authService.logIn(data).subscribe((resp: any) => {
-      localStorage.setItem('token', resp.token);
-      this.generalService.authorised = true;
-      this.router.navigate(['/chats/']);
+      if (resp.token){
+        localStorage.setItem('token', resp.token);
+        this.generalService.getUserId();
+        this.generalService.authorised = true;
+        this.router.navigate(['/chats/']);
+      }else {
+        this.toastsService.showToast('Your login or password is incorrect', 'danger');
+      }
     });
   }
 }

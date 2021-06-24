@@ -1,0 +1,17 @@
+<app-header></app-header>
+<ion-content>
+  <ion-row class="ion-justify-content-center setting-block">
+    <ion-col class="ion-justify-content-center ion-align-self-start ion-text-center">
+      <ion-row class="ion-justify-content-around">
+        <mat-form-field appearance="outline">
+          <mat-label>{{generalService.userName}}</mat-label>
+          <input matInput [(ngModel)]="userName" type="text">
+        </mat-form-field>
+        <ion-button fill="outline" (click)="changeName()">Change Name</ion-button>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <ion-button fill="clear" class="ion-align-self-center" (click)="generalService.logOut()">Log Out</ion-button>
+  </ion-row>
+</ion-content>

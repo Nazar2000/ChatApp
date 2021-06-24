@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {Contact} from '../../phone-contact';
-import {Router} from "@angular/router";
-import {ContactsService} from "../../core/services/contacts/contacts.service";
-import {GeneralService} from "../../core/services/generel/general.service";
+import {Contact} from '../../core/interface/phone-contact';
+import {Router} from '@angular/router';
+import {ContactsService} from '../../core/services/contacts/contacts.service';
+import {GeneralService} from '../../core/services/generel/general.service';
 
 @Component({
   selector: 'app-chat',
@@ -31,8 +31,10 @@ export class ChatsComponent implements OnInit {
 
   getContactsArray() {
     this.contactService.getContacts(this.generalService.userId).subscribe((resp: any) => {
-      this.contactService.contactsArray = resp.data.contacts;
-      this.contacts = of(this.contactService.contactsArray);
+      if (resp != null) {
+        this.contactService.contactsArray = resp.data.contacts;
+        this.contacts = of(this.contactService.contactsArray);
+      }
     });
   }
 }

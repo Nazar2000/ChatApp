@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {Contact} from '../../phone-contact';
+import {Contact} from '../../core/interface/phone-contact';
 import {Plugins} from '@capacitor/core';
 import {GeneralService} from '../../core/services/generel/general.service';
-import {ContactsCheckComponent} from '../chats/modals/contacts-check/contacts-check.component';
+import {ContactsCheckComponent} from './modals/contacts-check/contacts-check.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ContactsService} from '../../core/services/contacts/contacts.service';
 import {Router} from '@angular/router';
+import {ToastsService} from '../../core/services/toasts/toasts.service';
 
 const {Contacts} = Plugins;
 
@@ -21,6 +22,7 @@ export class ContactsComponent implements OnInit {
   constructor(
     public generalService: GeneralService,
     private contactService: ContactsService,
+    public toastsService: ToastsService,
     public dialog: MatDialog,
     public router: Router,
   ) {
@@ -52,15 +54,30 @@ export class ContactsComponent implements OnInit {
 
   getContactsArray() {
     this.contactService.getContacts(this.generalService.userId).subscribe((resp: any) => {
-      this.contactService.contactsArray = resp.data.contacts;
-      this.contacts = of(this.contactService.contactsArray);
+      if (resp != null) {
+        this.contactService.contactsArray = resp.data.contacts;
+        this.contacts = of(this.contactService.contactsArray);
+      }
     });
   }
 
   getContacts() {
     Contacts.getContacts().then(result => {
+      this.toastsService.showToast('Successfully get!', 'success');
+
       const phoneContacts = result.contacts;
-      this.contacts = of(phoneContacts);
+      const data = {
+        telNumbersArray: phoneContacts,
+        id: this.generalService.userId
+      };
+      this.contactService.checkContacts(data).subscribe((resp: any) => {
+        if (resp.message) {
+          this.toastsService.showToast(resp.message, resp.color);
+          this.getContactsArray();
+        } else {
+          this.contacts = of(resp);
+        }
+      });
     });
   }
 }

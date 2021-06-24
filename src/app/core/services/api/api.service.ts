@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 
 
 import * as _ from 'lodash';
-import {environment} from '../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'

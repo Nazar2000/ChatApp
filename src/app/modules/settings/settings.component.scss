@@ -1,0 +1,9 @@
+.setting-block {
+  height: calc(100vh - 100px);
+
+  ion-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

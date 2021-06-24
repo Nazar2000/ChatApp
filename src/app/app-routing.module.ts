@@ -16,10 +16,15 @@ const routes: Routes = [
     path: 'chats',
     loadChildren: () => import('./modules/chats/chats.module').then(m => m.ChatsModule),
     canActivate: [AuthGuard]
-  } ,
+  },
   {
     path: 'contacts',
     loadChildren: () => import('./modules/contacts/contacts.module').then(m => m.ContactsModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule),
     canActivate: [AuthGuard]
   }
 ];

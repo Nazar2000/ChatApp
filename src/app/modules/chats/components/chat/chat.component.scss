@@ -1,5 +1,5 @@
 .chat-messages {
-  height: 100%;
+  height: calc(100vh - 44px);
 
   .chat-messages-show-container {
     background: #c3c3c3;

@@ -6,6 +6,8 @@ export const environment = {
   production: false,
   BACK_END_URL: 'http://localhost:4000/',
   SOCKET_ENDPOINT: 'http://localhost:3000',
+  // BACK_END_URL: 'http://164.90.160.194:4000/',
+  // SOCKET_ENDPOINT: 'http://164.90.160.194:3000',
 };
 
 /*
