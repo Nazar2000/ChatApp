@@ -7,10 +7,9 @@ import {ChatsComponent} from './chats.component';
 import {ChatsRoutingModule} from './chats-routing.module';
 import {ChatComponent} from './components/chat/chat.component';
 import {SharedModule} from '../../shared/shared.module';
-import {ContactsCheckComponent} from "./modals/contacts-check/contacts-check.component";
-import {MatDialogModule} from "@angular/material/dialog";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   imports: [
@@ -23,7 +22,7 @@ import {MatInputModule} from "@angular/material/input";
     MatFormFieldModule,
     MatInputModule
   ],
-  declarations: [ChatsComponent, ChatComponent, ContactsCheckComponent]
+  declarations: [ChatsComponent, ChatComponent]
 })
 export class ChatsModule {
 }

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {GeneralService} from '../../../core/services/generel/general.service';
 
 @Component({
   selector: 'app-header',
@@ -8,12 +9,17 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   public page: string;
+  public ifChatPage: boolean;
 
-  constructor(private activatedRoute: ActivatedRoute) {
+  constructor(
+    public generalService: GeneralService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {
   }
 
   ngOnInit() {
+    this.ifChatPage = this.router.url.includes('/chat');
     this.page = this.activatedRoute.snapshot.paramMap.get('id');
   }
-
 }

@@ -1,0 +1,25 @@
+mat-label {
+  color: black;
+}
+
+mat-form-field {
+  width: 100%;
+
+  input {
+    width: 100%;
+    //height: 50px;
+    background: white;
+    border-radius: 20px;
+    outline: none;
+  }
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+
+  ion-button {
+    width: 95px;
+  }
+}

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ContactsService} from '../../../../core/services/contacts/contacts.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {GeneralService} from '../../../../core/services/generel/general.service';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-contacts-check',
@@ -9,13 +10,16 @@ import {GeneralService} from '../../../../core/services/generel/general.service'
   styleUrls: ['./contacts-check.component.scss'],
 })
 export class ContactsCheckComponent implements OnInit {
-  telNumber;
+  checkContactGroup: FormGroup;
 
   constructor(
     private contactService: ContactsService,
     public dialogRef: MatDialogRef<ContactsCheckComponent>,
     public generalService: GeneralService,
   ) {
+    this.checkContactGroup = new FormGroup({
+      telNumber: new FormControl('', [Validators.minLength(10), Validators.maxLength(10)]),
+    });
   }
 
   ngOnInit() {
@@ -23,7 +27,7 @@ export class ContactsCheckComponent implements OnInit {
 
   checkContact(): void {
     const data = {
-      telNumber: this.telNumber
+      telNumber: this.checkContactGroup.controls.telNumber.value
     };
     this.contactService.checkContact(data).subscribe((resp: any) => {
       if (resp.data.length){
